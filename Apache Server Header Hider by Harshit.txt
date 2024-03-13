@@ -1,0 +1,68 @@
+#--------------------------------------------------------------------#
+#                                                                    #
+#                    APACHE SERVER NAME HIDERBY                      #
+#                                 BY                                 #
+#                                                                    #
+#               )          (    (        )  (                        #
+#            ( /(   (      )\ ) )\ )  ( /(  )\ )  *   )              #
+#            )\())  )\    (()/((()/(  )\())(()/(` )  /(              #
+#           ((_)\((((_)(   /(_))/(_))((_)\  /(_))( )(_))             #
+#            _((_))\ _ )\ (_)) (_))   _((_)(_)) (_(_())              #
+#           | || |(_)_\(_)| _ \/ __| | || ||_ _||_   _|              #
+#           | __ | / _ \  |   /\__ \ | __ | | |   | |                #
+#           |_||_|/_/ \_\ |_|_\|___/ |_||_||___|  |_|                #
+#                                                          -2024     #
+#                                                                    #
+#                                                                    #
+#--------------------------------------------------------------------#
+                                                                      
+------------------------------------------WINDOWS------------------------------------------------------------------
+
+#Note: Check for Modsecurity version & apache version. They should always match.
+
+
+1. Download mod security here: https://www.apachelounge.com/download/VS17/modules/mod_security-2.9.7-win64-VS17.zip
+
+2. Install:
+
+- Copy mod_security2.so to your apache/modules folder
+- Copy yajl.dll to your apache/bin folder
+
+3.Add to your httpd.conf:
+
+  LoadModule security2_module modules/mod_security2.so
+
+- Enable the module unique_id by uncommenting:
+
+  LoadModule unique_id_module modules/mod_unique_id.so
+
+4. -- Paste this data to your httpd.conf at last.
+
+<IfModule security2_module>
+SecRuleEngine on
+ServerTokens Full
+SecServerSignature "Your Custom name Here or Press Space for Empty header"
+</IfModule>
+
+5. Apache Restart
+
+------------------------------------------LINUX/UNIX------------------------------------------------------------------
+
+---Run Everything in Sudo---
+1. apt update
+2. apt-get upgrade
+3. apt install dnf (alternative of yum)
+4. apt install libapache2-mod-security2
+5. a2enmod security2
+6. service apache2 restart
+7. nano /etc/modsecurity/modsecurity.conf
+8. -- Paste this data
+"
+<IfModule security2_module>
+SecRuleEngine on
+ServerTokens Full
+SecServerSignature "Your Custom name Here or Press Space for Empty header"
+</IfModule>
+"
+9. Ctrl + X & Ctrl + Y
+10. service apache2 restart
